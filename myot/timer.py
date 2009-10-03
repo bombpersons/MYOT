@@ -95,17 +95,24 @@ class Timer(Object, threading.Thread):
 			# Now set self.rung to True
 			self.rung = True
 		
-		# If we are inbetween the starttime and endtime..	
-		if time.localtime() > self.startTimeSecs and time.localtime() < self.endTimeSecs and self.rung:
-			self.running()
-			
 		# If the time is up..
-		if time.localtime() > self.endTimeSecs and self.rung:
+		elif time.localtime() > self.endTimeSecs and self.rung:
 			self.over()
 			
 			# Unset the timer
 			self.set = False
 		
+		# If we are inbetween the starttime and endtime.
+		elif time.localtime() > self.startTimeSecs and time.localtime() < self.endTimeSecs and self.rung:
+			self.running()
+			
+		# If any of those aren't true, then the timer hasn't started yet
+		else:
+			# Check if the endTime has already passed
+			if time.localtime() > self.endTimeSecs:
+				# The time has already passed.
+				self.set = False
+				
 		
 	# THREADING STUFF --------------------------------------------------
 	# This is run by Threads start() method.

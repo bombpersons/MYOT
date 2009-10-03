@@ -16,3 +16,6 @@ class ItemObject(Object):
 	# INIT -------------------------------------------------------------
 	def __init__(self):
 		Object.__init__(self)
+		
+		# VARIABLES
+		self.path = "" # The full path to the item

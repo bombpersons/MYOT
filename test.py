@@ -16,6 +16,3 @@ if __name__ == "__main__":
 	timer.over = over
 	
 	timer.activate("2009 10 3 11:45", "2009 10 3 11:46", "%Y %m %d %H:%M")
-	
-	while 1:
-		pass
