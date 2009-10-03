@@ -4,16 +4,69 @@
 
 # This class uses SYSTEM time.
 
-class Timer:
+# GLOBAL DEFS
+TIMER_SLEEP = 0.5
+
+import time, threading
+
+from object import Object
+
+class Timer(Object, threading.Thread):
 	# INIT -------------------------------------------------------------
 	# Init vars
-	def __init__(self):
-		pass
+	#
+	# If autotick is True (default) the timer will run in a seperate
+	# process. Other wise it will need to be updated automatically by
+	# calling tick()
+	def __init__(self, autotick=True):
+		# Call inherited __init__ first.
+		threading.Thread.__init__(self)
+		Object.__init__(self)
 		
-	# SET --------------------------------------------------------------
+		# Now our vars
+		self.startTimeString = "" # The time when the timer starts as a string
+		self.endTimeString = "" # The time when the timer stops as a string
+		self.timeFormat = "" # The string to use as the format for the string		
+		self.set = False # The timer starts deactivated
+		self.process = autotick # Wether or not to run in a seperate process.
+		self.rung = False # Has the timer rang yet?
+		
+		
+	# ACTIVATE --------------------------------------------------------------
 	# Sets the timer
-	def set(self, startTime, endTime, format):
-		pass
+	def activate(self, startTime, endTime, format):
+		# Set the timer.
+		self.startTimeString = startTime
+		self.endTimeString = endTime
+		self.timeFormat = format
+		
+		# Conver the strings to time using format
+		try:
+			self.startTime = time.strptime(startTime, self.timeFormat)
+			self.endTime = time.strptime(endTime, self.timeFormat)
+		except ValueError:
+			# Error
+			print ("Error: Cannot convert time according to format")
+			return False
+		
+		# Try and convert the time to seconds
+		try:
+			self.startTimeSecs = time.mktime(self.startTime)
+			self.endTimeSecs = time.mktime(self.endTime)
+		except OverflowError, ValueError:
+			# Error
+			print ("Error: Cannot convert time to seconds")
+			return False
+		
+		# The timer is now set
+		self.set = True
+		
+		# If self.process is true, we need to start calling tick in a
+		# seperate process.
+		if self.process:
+			self.deamon = True # We don't want python to hang if a timer
+							    # is still running at exit.
+			self.start()
 	
 	# RING -------------------------------------------------------------
 	# This function is called when the timer starts.
@@ -33,4 +86,33 @@ class Timer:
 	# TICK -------------------------------------------------------------
 	# Call this every loop (or in a seperate process)
 	def tick(self):
-		pass
+		# Check the time
+		if time.localtime() > self.startTimeSecs and time.localtime() < self.endTimeSecs and not self.rung:
+			# The time has come =)
+			# Call ring()
+			self.ring()
+			
+			# Now set self.rung to True
+			self.rung = True
+		
+		# If we are inbetween the starttime and endtime..	
+		if time.localtime() > self.startTimeSecs and time.localtime() < self.endTimeSecs and self.rung:
+			self.running()
+			
+		# If the time is up..
+		if time.localtime() > self.endTimeSecs and self.rung:
+			self.over()
+			
+			# Unset the timer
+			self.set = False
+		
+		
+	# THREADING STUFF --------------------------------------------------
+	# This is run by Threads start() method.
+	def run(self):
+		while self.set == True:
+			# Tick
+			self.tick()
+			
+			# Sleep for a bit to save CPU
+			time.sleep(TIMER_SLEEP)

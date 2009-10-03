@@ -2,12 +2,14 @@
 # a media player in a seperate process and returns information about the
 # process (time played, whether or not it is still playing, etc)
 
-class Player:
+from object import Object
+
+class Player(Object):
 	# INIT -------------------------------------------------------------
 	# This function is called when the class is instantated
 	# Default vars are defined etc,
 	def __init__(self):
-		pass
+		Object.__init__(self)
 		
 	# GETINFO ----------------------------------------------------------
 	# Get's info about this process (This is intended to be overridden)
