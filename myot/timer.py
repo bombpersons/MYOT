@@ -4,10 +4,8 @@
 
 # This class uses SYSTEM time.
 
-# GLOBAL DEFS
-TIMER_SLEEP = 0.5
-
 import time, threading
+import settings
 
 from object import Object
 
@@ -85,9 +83,9 @@ class Timer(Object, threading.Thread):
 		
 	# TICK -------------------------------------------------------------
 	# Call this every loop (or in a seperate process)
-	def tick(self):
+	def tick(self):		
 		# Check the time
-		if time.localtime() > self.startTimeSecs and time.localtime() < self.endTimeSecs and not self.rung:
+		if time.mktime(time.localtime()) > self.startTimeSecs and time.mktime(time.localtime()) < self.endTimeSecs and not self.rung:
 			# The time has come =)
 			# Call ring()
 			self.ring()
@@ -96,20 +94,21 @@ class Timer(Object, threading.Thread):
 			self.rung = True
 		
 		# If the time is up..
-		elif time.localtime() > self.endTimeSecs and self.rung:
+		elif time.mktime(time.localtime()) > self.endTimeSecs and self.rung:
 			self.over()
 			
 			# Unset the timer
 			self.set = False
+			self.rung = False
 		
 		# If we are inbetween the starttime and endtime.
-		elif time.localtime() > self.startTimeSecs and time.localtime() < self.endTimeSecs and self.rung:
+		elif time.mktime(time.localtime()) > self.startTimeSecs and time.mktime(time.localtime()) < self.endTimeSecs and self.rung:
 			self.running()
 			
 		# If any of those aren't true, then the timer hasn't started yet
 		else:
 			# Check if the endTime has already passed
-			if time.localtime() > self.endTimeSecs:
+			if time.mktime(time.localtime()) > self.endTimeSecs:
 				# The time has already passed.
 				self.set = False
 				
@@ -122,4 +121,4 @@ class Timer(Object, threading.Thread):
 			self.tick()
 			
 			# Sleep for a bit to save CPU
-			time.sleep(TIMER_SLEEP)
+			time.sleep(settings.TIMER_SLEEP)

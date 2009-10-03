@@ -1,18 +1,27 @@
+from myot.schedule import Schedule
+from myot.block import Block
+from myot.series import Series
 from myot.timer import Timer
-
-def ring():
-	print "RINGING"
-	
-def running():
-	print "..."
-
-def over():
-	print "TIME UP"
+from myot import settings
 
 if __name__ == "__main__":
-	timer = Timer()
-	timer.ring = ring
-	timer.running = running
-	timer.over = over
+	scheduler = Schedule()
 	
-	timer.activate("2009 10 3 11:45", "2009 10 3 11:46", "%Y %m %d %H:%M")
+	block = Block()
+	block.picker = 'random'
+	block.new_episodes = True
+	
+	series = Series()
+	series.auto("test")
+	series2 = Series()
+	series2.auto("test2")
+	
+	block.series = [series, series2]
+	
+	timer = Timer()
+	scheduler.add("2009 10 3 19:50", "2009 10 3 22:37", "%Y %m %d %H:%M", block)
+	
+	scheduler.start()
+	
+	while True:
+		pass

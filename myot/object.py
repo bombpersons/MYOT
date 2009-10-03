@@ -19,3 +19,4 @@ class ItemObject(Object):
 		
 		# VARIABLES
 		self.path = "" # The full path to the item
+		self.groups = [] # Groups that this object is a member of.
