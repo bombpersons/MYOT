@@ -16,13 +16,13 @@ class mPlayer(Player):
 	# Play the item
 	def play(self, item):
 		# Start mplayer
-		self.process = subprocess.Popen(self.getArgs(item), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		self.process = subprocess.Popen(self.getArgs(item), stderr=subprocess.PIPE)
 	
 	# STOP -------------------------------------------------------------
 	# Kills the mplayer process
 	def stop(self):
 		if self.process != None:
-			self.process.kill()
+			self.process.terminate()
 		
 	# GET ARGS ---------------------------------------------------------
 	# Gets the arguments to send to mplayer

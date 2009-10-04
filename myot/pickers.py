@@ -18,8 +18,6 @@ class RandomPicker(Picker):
 		# Pick a series at random.
 		self.series = self.getSeries(block)
 		
-		print self.series[0].videos
-		
 		#Seed the ranomizer
 		random.seed()
 		

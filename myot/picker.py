@@ -69,7 +69,6 @@ class Picker(Object):
 			for series in finalSeries[:]:
 				for video in series.videos[:]:
 					if video.number > series.pickle.episode:
-						print series.videos.index(video), series.pickle.episode
 						finalSeries[finalSeries.index(series)].videos.remove(video)
 		
 		# Ok now return the list

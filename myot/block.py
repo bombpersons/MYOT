@@ -4,13 +4,13 @@
 # You can use this to make only a selection of shows play during a time,
 # Or make only make new episodes play at a certain time of the day.
 
+import os
+
 import settings
 from helpers import listDirs, listFiles
 
 from object import Object
 from series import Series
-
-import settings
 
 class Block(Object):
 	# INIT -------------------------------------------------------------
