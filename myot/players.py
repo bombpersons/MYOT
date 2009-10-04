@@ -1,5 +1,5 @@
 # This file contains builtin players
-import subprocess
+import subprocess, os, signal
 
 from player import Player
 
@@ -22,8 +22,8 @@ class mPlayer(Player):
 	# Kills the mplayer process
 	def stop(self):
 		if self.process != None:
-			self.process.terminate()
-		
+			os.kill(self.process.pid, signal.SIGTERM)
+
 	# GET ARGS ---------------------------------------------------------
 	# Gets the arguments to send to mplayer
 	def getArgs(self, item):

@@ -19,6 +19,6 @@ anotherBlock.series = [
 
 # ACTIVE BLOCKS
 BLOCKS = (
-	(testBlock, "Sunday 10:10", "Sunday 13:25"),
-	(testBlock, "Sunday 13:25", "Sunday 17:10"),
+	(testBlock, "Sunday 14:10", "Sunday 14:42"),
+	(anotherBlock, "Sunday 14:42", "Sunday 17:10"),
 )
