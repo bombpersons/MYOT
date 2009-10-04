@@ -20,7 +20,7 @@ class Picker(Object):
 	# Saves the information about series. (Info from last pick)
 	def save(self, block):
 		for s in self.series:
-			if s == self.picked:
+			if self.picked in s.videos:
 				s.pickle.since = 0
 			else:
 				s.pickle.since += 1
@@ -31,7 +31,7 @@ class Picker(Object):
 				else:
 					s.pickle.episode += 1
 		
-		s.save()
+			s.save()
 	
 	# GET SERIES
 	# This function obtains all the series described in a block and gets
@@ -48,6 +48,10 @@ class Picker(Object):
 		for series in block.exclude_series:
 			finalSeries.remove(series)
 			
+		#Reload these series
+		for series in finalSeries:
+			series.auto(series.path)	
+		
 		# Pick the series from groups
 		if block.groups:
 			for series in finalSeries[:]:
@@ -60,21 +64,13 @@ class Picker(Object):
 				if series.group in block.exclude_group:
 					finalSeries.remove(series)
 					
-		# If only new episodes is true, remove all old episodes
-		if block.new_episodes:
+		# If only old episodes is true, remove all new episodes
+		if block.old_episodes:
 			for series in finalSeries[:]:
-				for episode in series.videos[:]:
-					if series.videos.index(episode) < series.pickle.episode:
-						series.videos.remove(episode)
-		elif block.old_episodes:
-			for series in finalSeries[:]:
-				for episode in series.videos[:]:
-					if series.videos.index(episode) > series.pickle.episode:
-						series.videos.remove(episode)
-		
-		#Reload these series
-		for series in finalSeries:
-			series.auto(series.path)
+				for video in series.videos[:]:
+					if video.number > series.pickle.episode:
+						print series.videos.index(video), series.pickle.episode
+						finalSeries[finalSeries.index(series)].videos.remove(video)
 		
 		# Ok now return the list
 		return finalSeries

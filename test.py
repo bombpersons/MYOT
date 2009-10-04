@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from myot.schedule import Schedule
 from myot.block import Block
 from myot.series import Series
@@ -19,7 +21,7 @@ if __name__ == "__main__":
 	block.series = [series, series2]
 	
 	timer = Timer()
-	scheduler.add("2009 10 3 19:50", "2009 10 3 22:37", "%Y %m %d %H:%M", block)
+	scheduler.add("3 19:50", "3 23:00", "%d %H:%M", block)
 	
 	scheduler.start()
 	

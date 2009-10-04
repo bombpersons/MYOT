@@ -15,6 +15,7 @@ class Schedule(Object, threading.Thread):
 		# VARS
 		self.running = False # Whether or not the schedular is running
 		self.blocks = [] # blocks active
+		self.player = settings.PLAYERS[settings.PLAYER]()
 		
 	# ADD --------------------------------------------------------------
 	# Add a scheduled time
@@ -26,7 +27,12 @@ class Schedule(Object, threading.Thread):
 		
 		# Start a timer for this block
 		newBlock.timer = Timer()
-		newBlock.timer.activate(startTime, endTime, format)
+		
+		# Figure out the time
+		year, month = time.strftime("%Y %m").split()
+		
+		# Add the block timer
+		newBlock.timer.activate(year + " " + month + " " + startTime, year + " " + month + " " + endTime, "%Y %m " + format)
 		
 		# Add this block to the list
 		self.blocks.append(newBlock)
@@ -38,7 +44,6 @@ class Schedule(Object, threading.Thread):
 	def update(self):
 		# Check what blocks are still active
 		for block in self.blocks:
-			print block.timer.set
 			
 			if not block.timer.set:
 				# We can delete this one.
@@ -46,20 +51,31 @@ class Schedule(Object, threading.Thread):
 		
 		# Check which block we are using at the moment.
 		for block in self.blocks:
-			print block.timer.rung
 			
 			if block.timer.rung:
-				# Call the block onChoose method before doing our's
-				block.onChoose(self)
+				# Check if this is a new block
+				if block.name != "current":
+					# This isn't a new block, stop the player
+					self.player.stop()
 				
-				# Send this to the picker
-				picker = settings.PICKERS[block.picker]()
-				episode = picker.pick(block)
+				# Check if we aren't already playing
+				if not self.player.get('playing'):
 				
-				# Now play this
-				print ("PLAYING " + episode.path)
-				
-				picker.save(block)
+					# Call the block onChoose method before doing our's
+					block.onChoose(self)
+					
+					# Send this to the picker
+					picker = settings.PICKERS[block.picker]()
+					episode = picker.pick(block)
+					
+					# Now play this
+					print ("PLAYING " + episode.path)
+					self.player.play(episode)
+					
+					picker.save(block)
+					
+				#Use the blocks name to set which is current
+				block.name = "current"
 		
 
 	# THREADING --------------------------------------------------------

@@ -109,6 +109,7 @@ class Timer(Object, threading.Thread):
 		else:
 			# Check if the endTime has already passed
 			if time.mktime(time.localtime()) > self.endTimeSecs:
+				
 				# The time has already passed.
 				self.set = False
 				

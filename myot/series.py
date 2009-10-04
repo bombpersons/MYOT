@@ -21,7 +21,7 @@ class SeriesPickle(Object):
 # This class contains many video instances to represent a series.
 class Series(Object):
 	# INIT -------------------------------------------------------------
-	def __init__(self):
+	def __init__(self, auto=""):
 		# Call inherited __init__'s
 		Object.__init__(self)
 		
@@ -32,6 +32,10 @@ class Series(Object):
 		self.path = "" # The path to folder containing the series.
 		
 		self.pickle = SeriesPickle() # The object to save settings to.
+		
+		# Call auto if a path is passed to us.
+		if auto != "":
+			self.auto(auto)
 		
 	# AUTO -------------------------------------------------------------
 	# Automatically scan a directory and populate videos.
@@ -69,6 +73,7 @@ class Series(Object):
 		for file in files:
 			newVideo = Video()
 			newVideo.path = os.path.join(dir, file)
+			newVideo.number = files.index(file)
 			self.videos.append(newVideo)
 			
 		# Make this dir our new path
@@ -76,8 +81,6 @@ class Series(Object):
 		
 		# Make sure we note how many files there were.
 		self.pickle.num = len(self.videos)
-		
-		print self.pickle.episode
 	
 	# SAVE -------------------------------------------------------------
 	# remembers data in a pickle file
