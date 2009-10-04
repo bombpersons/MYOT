@@ -10,6 +10,8 @@ from helpers import listDirs, listFiles
 from object import Object
 from series import Series
 
+import settings
+
 class Block(Object):
 	# INIT -------------------------------------------------------------
 	def __init__(self):
@@ -42,7 +44,7 @@ class Block(Object):
 	# Automatically add series from a folder
 	def auto(self, dir):
 		#List all dirs
-		dirs = listDirs(dir)
+		dirs = listDirs(os.path.join(settings.MEDIA_DIR, dir))
 		
 		for d in dirs[:]:
 			series = Series()

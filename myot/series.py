@@ -41,7 +41,7 @@ class Series(Object):
 	# Automatically scan a directory and populate videos.
 	def auto(self, dir):
 		# Find all files in the dir
-		files = listFiles(dir)
+		files = listFiles(os.path.join(settings.MEDIA_DIR, dir))
 		
 		# Now sort the files alphabetically
 		files.sort()
@@ -52,7 +52,7 @@ class Series(Object):
 			# Check if this file is the pickle file.
 			if file == ".pickle":
 				# Load this file
-				self.pickle = pickle.load(open(os.path.join(dir, ".pickle"), "rb"))
+				self.pickle = pickle.load(open(os.path.join(settings.MEDIA_DIR, dir, ".pickle"), "rb"))
 				temp.remove(file)
 		files = temp
 		
@@ -77,7 +77,7 @@ class Series(Object):
 			self.videos.append(newVideo)
 			
 		# Make this dir our new path
-		self.path = dir
+		self.path = os.path.join(settings.MEDIA_DIR, dir)
 		
 		# Make sure we note how many files there were.
 		self.pickle.num = len(self.videos)
