@@ -22,7 +22,12 @@ class RandomPicker(Picker):
 		random.seed()
 		
 		#Now pick a series
-		series = random.choice(self.series)
+		series_choice = []
+		for series in self.series:
+			for i in range(0, series.pickle.since):
+				series_choice.append(series)
+		
+		series = random.choice(series_choice)
 		
 		#Now pick an episode
 		if block.old_episodes:
