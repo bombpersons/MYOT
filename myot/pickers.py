@@ -24,7 +24,7 @@ class RandomPicker(Picker):
 		#Now pick a series
 		series_choice = []
 		for series in self.series:
-			for i in range(0, series.pickle.since):
+			for i in range(0, series.pickle.since * series.pickle.num):
 				series_choice.append(series)
 		
 		series = random.choice(series_choice)
