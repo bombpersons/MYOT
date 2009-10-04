@@ -2,6 +2,9 @@
 from pickers import * # Import all the default pickers.
 from players import * # Import all the default players.
 
+# The directory containing the series folders
+MEDIA_DIR = ""
+
 # A list of all pickers that you want to be loaded.
 PICKERS = {
 	'default': DummyPicker,

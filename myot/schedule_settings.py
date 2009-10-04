@@ -3,9 +3,6 @@
 from block import Block
 from series import Series
 
-# The directory containing the series folders
-MEDIA_DIR = ""
-
 # EXAMPLE BLOCK
 testBlock = Block()
 testBlock.picker = 'random'
