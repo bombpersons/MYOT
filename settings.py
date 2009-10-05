@@ -12,6 +12,7 @@ PICKERS = {
 	'latest': LatestEpisodePicker,
 }
 PICKER = 'random'
+AD_PICKER = 'random'
 
 # A list of players to choose from
 PLAYERS = {

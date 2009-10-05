@@ -16,6 +16,7 @@ class Schedule(Object, threading.Thread):
 		self.running = False # Whether or not the schedular is running
 		self.blocks = [] # blocks active
 		self.player = settings.PLAYERS[settings.PLAYER]()
+		self.play_advert = False
 		
 	# ADD --------------------------------------------------------------
 	# Add a scheduled time
@@ -58,6 +59,20 @@ class Schedule(Object, threading.Thread):
 					# This isn't a new block, stop the player
 					self.player.stop()
 				
+				# If we aren't playing and adverts are enabled, play them here.
+				if not self.player.get('playing') and block.use_ads and self.play_advert:
+					
+					# Make a picker
+					picker = settings.PICKERS[block.ad_picker]()
+					advert = picker.pickAd(block)
+					
+					# Play it
+					print ("PLAYING ADVERT " + advert.path)
+					self.player.play(advert)
+					
+					# Finished playing adverts
+					self.play_advert = False
+				
 				# Check if we aren't already playing
 				if not self.player.get('playing'):
 				
@@ -72,7 +87,12 @@ class Schedule(Object, threading.Thread):
 					print ("PLAYING " + episode.path)
 					self.player.play(episode)
 					
+					# Save the block
 					picker.save(block)
+					
+					# If we have adverts enabled, set the play_advert to true
+					if block.use_ads:
+						self.play_advert = True
 					
 				#Use the blocks name to set which is current
 				block.name = "current"

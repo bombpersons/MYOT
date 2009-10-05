@@ -10,7 +10,11 @@ class DummyPicker(Picker):
 		
 		self.picked = self.series[0].videos[self.series[0].pickle.episode - 1]
 		
-		return self.series[0].videos[self.series[0].pickle.episode - 1]
+		return self.picked
+		
+	def pickAd(self, block):
+		return block.ads[0]
+		
 
 # A random picker. It will keep track of episode numbers, etc.
 class RandomPicker(Picker):

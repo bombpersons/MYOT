@@ -5,9 +5,14 @@ from series import Series
 
 # EXAMPLE BLOCK
 testBlock = Block()
-testBlock.picker = 'random'
-testBlock.auto(".")
+testBlock.picker = 'default'
+testBlock.ad_picker = 'default'
+testBlock.autoAd("test")
+testBlock.use_ads = True
 testBlock.old_episodes = True
+testBlock.series = [
+	Series("test2"),
+]
 
 # ANOTHER BLOCK
 anotherBlock = Block()
@@ -19,6 +24,6 @@ anotherBlock.series = [
 
 # ACTIVE BLOCKS
 BLOCKS = (
-	(testBlock, "Sunday 14:10", "Sunday 14:42"),
-	(anotherBlock, "Sunday 14:42", "Sunday 17:10"),
+	(testBlock, "Monday 11:10", "Monday 14:36"),
+	(anotherBlock, "Monday 11:36", "Monday 17:10"),
 )

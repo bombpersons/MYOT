@@ -35,6 +35,9 @@ class Manager(Object, threading.Thread):
 		# Start the scheduler (if it isn't already)
 		if not self.scheduler.running:
 			self.scheduler.start()
+			
+			# Also start the manager
+			self.start()
 	
 	# NEXT -------------------------------------------------------------
 	# Picks the next show (will still obey schedule times, even if

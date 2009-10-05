@@ -16,6 +16,11 @@ class Picker(Object):
 	def pick(self, block):
 		pass
 		
+	# PICK AD ----------------------------------------------------------
+	# This function picks an advert
+	def pickAd(self, block):
+		pass
+		
 	# SAVE -------------------------------------------------------------
 	# Saves the information about series. (Info from last pick)
 	def save(self, block):
