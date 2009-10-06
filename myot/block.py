@@ -12,6 +12,7 @@ from helpers import listDirs, listFiles
 from object import Object
 from series import Series
 from video import Video
+from timer import Timer
 
 class Block(Object):
 	# INIT -------------------------------------------------------------
@@ -37,6 +38,9 @@ class Block(Object):
 		
 		self.picker = settings.PICKER # The picker to use in this block.
 		self.ad_picker = settings.AD_PICKER # Thi picker to use to pick adverts
+		
+		# REALTIME VARS
+		self.current = False # If this block is currently being played.
 		
 	# ONCHOOSE
 	# This is run when the schedular picks a show. Overide this to add 
@@ -86,7 +90,6 @@ class Block(Object):
 		for file in files:
 			newVideo = Video()
 			newVideo.path = os.path.join(dir, file)
-			print newVideo.path
 			newVideo.number = files.index(file)
 			self.ads.append(newVideo)
 	

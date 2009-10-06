@@ -83,7 +83,7 @@ class Timer(Object, threading.Thread):
 		
 	# TICK -------------------------------------------------------------
 	# Call this every loop (or in a seperate process)
-	def tick(self):		
+	def tick(self):	
 		# Check the time
 		if time.mktime(time.localtime()) > self.startTimeSecs and time.mktime(time.localtime()) < self.endTimeSecs and not self.rung:
 			# The time has come =)

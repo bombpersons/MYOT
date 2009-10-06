@@ -51,4 +51,3 @@ class Manager(Object, threading.Thread):
 	def run(self):
 		while self.scheduler.running:
 			time.sleep(settings.MANAGER_SLEEP)
-			self.load()
