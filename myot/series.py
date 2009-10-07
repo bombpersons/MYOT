@@ -1,7 +1,7 @@
 import os, pickle
 
 import settings
-from helpers import listFiles
+from helpers import listFiles, listDirs
 
 from object import Object
 from video import Video
@@ -74,7 +74,19 @@ class Series(Object):
 			newVideo = Video()
 			newVideo.path = os.path.join(dir, file)
 			newVideo.number = files.index(file)
+			
+			# While we are here, we can check if there are any subs for this video
+			if "subs" in listDirs(os.path.join(settings.MEDIA_DIR, dir)):
+				for sub in listFiles(os.path.join(settings.MEDIA_DIR, dir, "subs")):
+					
+					# Check if any of these subs match the video
+					if sub.split(".")[0] == file.split(".")[0]:
+						
+						# Cool, this file has some subtitles
+						newVideo.sub_path = os.path.join(settings.MEDIA_DIR, dir, "subs", sub)
+
 			self.videos.append(newVideo)
+				
 			
 		# Make this dir our new path
 		self.path = os.path.join(settings.MEDIA_DIR, dir)

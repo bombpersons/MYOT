@@ -19,5 +19,6 @@ class ItemObject(Object):
 		
 		# VARIABLES
 		self.path = "" # The full path to the item
+		self.sub_path = "" # The full path to subs for this item
 		self.groups = [] # Groups that this object is a member of.
 		self.number = 0 # The number of this object (e.g order in a series)

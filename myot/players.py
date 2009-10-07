@@ -16,7 +16,7 @@ class mPlayer(Player):
 	# Play the item
 	def play(self, item):
 		# Start mplayer
-		self.process = subprocess.Popen(self.getArgs(item), stderr=subprocess.PIPE)
+		self.process = subprocess.Popen(self.getArgs(item))
 	
 	# STOP -------------------------------------------------------------
 	# Kills the mplayer process
@@ -34,6 +34,14 @@ class mPlayer(Player):
 		args.append("-framedrop")
 		args.append("-fs")
 		args.append("-idx")
+		
+		# If there are subs for this item, then make mplayer use them
+		if item.sub_path != "":
+			args.append("-subcp")
+			args.append("utf-8")
+			
+			args.append("-sub")
+			args.append(item.sub_path)
 		
 		# The file we are playing
 		args.append(item.path)
